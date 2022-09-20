@@ -1,0 +1,25 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 17
+VisualStudioVersion = 17.3.32901.215
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DbTableComparer", "DbTableComparer\DbTableComparer.csproj", "{E4F54A10-1354-4140-BCE7-443D4299BBDD}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{E4F54A10-1354-4140-BCE7-443D4299BBDD}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{E4F54A10-1354-4140-BCE7-443D4299BBDD}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{E4F54A10-1354-4140-BCE7-443D4299BBDD}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{E4F54A10-1354-4140-BCE7-443D4299BBDD}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {B5496D5D-CD2E-4D78-B0B5-4C755B3B43E2}
+	EndGlobalSection
+EndGlobal
