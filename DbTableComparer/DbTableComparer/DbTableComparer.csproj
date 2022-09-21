@@ -46,6 +46,9 @@
   <ItemGroup>
     <Compile Include="ComparisonService.cs" />
     <Compile Include="Models\AppConfiguration.cs" />
+    <Compile Include="Models\Column.cs" />
+    <Compile Include="Models\DatabaseObject.cs" />
+    <Compile Include="Models\Table.cs" />
     <Compile Include="Models\TablesConfiguration.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

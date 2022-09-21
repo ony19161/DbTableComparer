@@ -37,17 +37,20 @@ namespace DbTableComparer
                         {
                             if (reader.HasRows)
                             {
-                                DataTable dt = new DataTable();
-                                dt.Load(reader);
+                                DataTable dataTable = new DataTable();
+                                dataTable.Load(reader);
                                 
-                                if (dt.Rows.Count < 2)
+                                if (dataTable.Rows.Count < 2)
                                 {
                                     Console.WriteLine("Table not found in database");
                                     return;
                                 }
                                 else
                                 {
-
+                                    foreach (DataRow dataRow  in dataTable.Rows)
+                                    {
+                                        
+                                    }
                                 }
                             }
                             
