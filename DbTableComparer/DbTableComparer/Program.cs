@@ -64,6 +64,7 @@ namespace DbTableComparer
             var appConfiguration = new AppConfiguration();
             appConfiguration.ConnectionString = ConfigurationManager.ConnectionStrings["DefaultConnectionString"].ToString();
             appConfiguration.FindTablesQuery = ConfigurationManager.AppSettings["findTablesQuery"];
+            appConfiguration.FindColumnQuery = ConfigurationManager.AppSettings["findColumnsQuery"];
             appConfiguration.AddedRowsQuery = ConfigurationManager.AppSettings["addedRowsQuery"];
             appConfiguration.DeletedRowsQuery = ConfigurationManager.AppSettings["deletedRowsQuery"];
             appConfiguration.ChangeDetectQuery = ConfigurationManager.AppSettings["changeDetectQuery"];

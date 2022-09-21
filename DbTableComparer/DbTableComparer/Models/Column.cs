@@ -20,5 +20,13 @@ namespace DbTableComparer.Models
         public int Length { get; set; }
         public int Scale { get; set; }
 
+        public bool CompareWith(Column referenceColumn)
+        {
+            return this.Name == referenceColumn.Name && 
+                   this.Type == referenceColumn.Type &&
+                   this.Length == referenceColumn.Length && 
+                   this.Scale == referenceColumn.Scale;
+        }
+
     }
 }

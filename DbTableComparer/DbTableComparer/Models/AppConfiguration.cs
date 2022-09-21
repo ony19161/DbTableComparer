@@ -10,6 +10,7 @@ namespace DbTableComparer.Models
     {
         public string ConnectionString { get; set; }
         public string FindTablesQuery { get; set; }
+        public string FindColumnQuery { get; set; }
         public string AddedRowsQuery { get; set; }
         public string DeletedRowsQuery { get; set; }
         public string ChangeDetectQuery { get; set; }

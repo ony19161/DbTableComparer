@@ -21,7 +21,7 @@ namespace DbTableComparer.Models
             Columns = new Hashtable();
         }
 
-        private void GetColumnData(SqlConnection conn, string columnFetchQuery)
+        public void GetColumnData(SqlConnection conn, string columnFetchQuery)
         {
             using (SqlCommand command = conn.CreateCommand())
             {
@@ -36,6 +36,22 @@ namespace DbTableComparer.Models
                     }
                 }
             }
+        }
+
+        public bool CompareColumns(DatabaseObject referenceTable)
+        {
+            if (this.Columns.Values.Count != referenceTable.Columns.Values.Count)
+                return false;
+
+            foreach (Column column in this.Columns.Values)
+            {
+                Column referenceColumn = referenceTable.Columns[column.Name] as Column;
+                if (referenceColumn == null)
+                    return false;
+                if (!column.CompareWith(referenceColumn))
+                    return false;
+            }
+            return true;
         }
     }
 }

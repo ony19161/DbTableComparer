@@ -1,5 +1,6 @@
 ﻿using DbTableComparer.Models;
 using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.Data;
 using System.Data.SqlClient;
@@ -13,14 +14,16 @@ namespace DbTableComparer
     public class ComparisonService
     {
         private readonly AppConfiguration appConfiguration;
-
+        private Hashtable databaseTables;
         public ComparisonService(AppConfiguration appConfiguration)
         {
             this.appConfiguration = appConfiguration;
+            databaseTables = new Hashtable();
         }
 
         public void CompareTables()
         {
+            
             try
             {
                 using (SqlConnection dbConnection = new SqlConnection(appConfiguration.ConnectionString))
@@ -47,13 +50,21 @@ namespace DbTableComparer
                                 }
                                 else
                                 {
-                                    foreach (DataRow dataRow  in dataTable.Rows)
+                                    foreach (DataRow dataRow in dataTable.Rows)
                                     {
-                                        
+                                        DatabaseTable table = new DatabaseTable(dataRow[0].ToString(), (int)dataRow[1] );
+                                        table.GetColumnData(dbConnection, appConfiguration.FindColumnQuery);
+                                        databaseTables[table.Name] = table;
                                     }
                                 }
-                            }
-                            
+                            }                            
+                        }
+
+                        if (!IsSchemaMatching((DatabaseObject)databaseTables[appConfiguration.TablesConfig.FirstTableName.ToLower()],
+                                              (DatabaseObject)databaseTables[appConfiguration.TablesConfig.SecondTableName.ToLower()]))
+                        {
+                            Console.WriteLine("Tables schema does not match");
+                            return;
                         }
                     }
                         
@@ -64,6 +75,11 @@ namespace DbTableComparer
             {
                 Console.WriteLine("Error on comparing tables. ErrorMsg: " + ex.Message);
             }
+        }
+
+        private bool IsSchemaMatching(DatabaseObject firstTable, DatabaseObject secondTable)
+        {
+            return firstTable.CompareColumns(secondTable);
         }
     }
 }
