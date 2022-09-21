@@ -1,5 +1,7 @@
-﻿using System;
+﻿using DbTableComparer.Models;
+using System;
 using System.Collections.Generic;
+using System.Configuration;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -12,6 +14,7 @@ namespace DbTableComparer
         {
             bool willStartComparison = true;
             var argValues = string.Join(" ", args).Split('-').Where(a => !string.IsNullOrEmpty(a)).ToList();
+            TablesConfiguration tablesConfig = new TablesConfiguration();
 
             if (argValues.Count() < 3)
             {
@@ -21,13 +24,13 @@ namespace DbTableComparer
 
             try
             {
-                string firstTableName = argValues[0].Split(' ')[1];
-                string secondTableName = argValues[1].Split(' ')[1];
-                string pkName = argValues[2].Split(' ')[1];
+                tablesConfig.FirstTableName = argValues[0].Split(' ')[1];
+                tablesConfig.SecondTableName = argValues[1].Split(' ')[1];
+                tablesConfig.PkName = argValues[2].Split(' ')[1];
 
-                if (string.IsNullOrWhiteSpace(firstTableName) ||
-                    string.IsNullOrWhiteSpace(secondTableName) ||
-                    string.IsNullOrWhiteSpace(pkName))
+                if (string.IsNullOrWhiteSpace(tablesConfig.FirstTableName) ||
+                    string.IsNullOrWhiteSpace(tablesConfig.SecondTableName) ||
+                    string.IsNullOrWhiteSpace(tablesConfig.PkName))
                 {
                     willStartComparison = false;
                     Console.WriteLine("Missing argument value");
@@ -42,6 +45,10 @@ namespace DbTableComparer
             if (willStartComparison)
             {
                 Console.WriteLine("Start comparison");
+                var appConfig = GetAppConfiguration();
+                appConfig.TablesConfig = tablesConfig;
+
+                new ComparisonService(appConfig).CompareTables();
             }
             else
             {
@@ -50,6 +57,19 @@ namespace DbTableComparer
             }
 
             Console.ReadKey();
+        }
+
+        static AppConfiguration GetAppConfiguration()
+        {
+            var appConfiguration = new AppConfiguration();
+            appConfiguration.ConnectionString = ConfigurationManager.ConnectionStrings["DefaultConnectionString"].ToString();
+            appConfiguration.FindTablesQuery = ConfigurationManager.AppSettings["findTablesQuery"];
+            appConfiguration.AddedRowsQuery = ConfigurationManager.AppSettings["addedRowsQuery"];
+            appConfiguration.DeletedRowsQuery = ConfigurationManager.AppSettings["deletedRowsQuery"];
+            appConfiguration.ChangeDetectQuery = ConfigurationManager.AppSettings["changeDetectQuery"];
+            appConfiguration.PageSize = ConfigurationManager.AppSettings["pageSize"];
+
+            return appConfiguration;
         }
     }
 }
