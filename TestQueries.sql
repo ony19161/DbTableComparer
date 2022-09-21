@@ -1,4 +1,4 @@
-select name, id from sysobjects where xtype='U' and name in ('SourceTable1', 'SourceTable2', 'SalaryOld')
+--select name, id from sysobjects where xtype='U' and name in ('SourceTable1', 'SourceTable2')
 
 
 -- query for added rows in new table
@@ -12,11 +12,10 @@ Select SocialSecurityNumber from SourceTable2
 )
 
 -- query for getting changed rows
-((SELECT * FROM SourceTable1 except SELECT * FROM SourceTable2) 
-  union (SELECT * FROM SourceTable2 except SELECT * FROM SourceTable1))
+Select * from (((SELECT *,'SourceTable1' as TableName FROM SourceTable1 except SELECT *,'SourceTable2'  as TableName FROM SourceTable2) 
+  union (SELECT *,'SourceTable2' as TableName FROM SourceTable2 except SELECT *,'SourceTable1' as TableName FROM SourceTable1))
 except 
-(Select * from SourceTable2 where SocialSecurityNumber not in (Select SocialSecurityNumber from SourceTable1) 
- union (Select * from SourceTable1 where SocialSecurityNumber not in (Select SocialSecurityNumber from SourceTable2)))
+(Select *,'SourceTable2' as TableName from SourceTable2 where SocialSecurityNumber not in (Select SocialSecurityNumber from SourceTable1) 
+ union (Select *,'SourceTable1' as TableName from SourceTable1 where SocialSecurityNumber not in (Select SocialSecurityNumber from SourceTable2)))) as T
+ order by T.SocialSecurityNumber
 
-
- select name, xtype, length, xscale from syscolumns where id in (645577338,581577110) order by colorder

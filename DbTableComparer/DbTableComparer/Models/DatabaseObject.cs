@@ -12,7 +12,7 @@ namespace DbTableComparer.Models
     {
         public string Name { get; set; }
         public int Id { get; set; }
-        private Hashtable Columns;
+        public Hashtable Columns;
 
         public DatabaseObject(string name, int id)
         {
@@ -23,6 +23,7 @@ namespace DbTableComparer.Models
 
         public void GetColumnData(SqlConnection conn, string columnFetchQuery)
         {
+            int index = 0;
             using (SqlCommand command = conn.CreateCommand())
             {
                 command.CommandText = columnFetchQuery;
@@ -31,8 +32,9 @@ namespace DbTableComparer.Models
                 {
                     while (reader.Read())
                     {
-                        Columns[reader.GetString(0)] = new Column(reader.GetString(0), reader.GetByte(1),
-                            reader.GetInt16(2), reader.GetByte(3));
+                        Columns[index] = new Column(reader.GetString(0), reader.GetByte(1),
+                            reader.GetInt16(2), reader.GetByte(3), reader.GetString(4));
+                        index++;
                     }
                 }
             }
@@ -43,9 +45,11 @@ namespace DbTableComparer.Models
             if (this.Columns.Values.Count != referenceTable.Columns.Values.Count)
                 return false;
 
-            foreach (Column column in this.Columns.Values)
+            for (int index = 0; index < this.Columns.Values.Count; index++)
             {
-                Column referenceColumn = referenceTable.Columns[column.Name] as Column;
+                Column column = (Column)this.Columns[index];
+                Column referenceColumn = referenceTable.Columns[index] as Column;
+                
                 if (referenceColumn == null)
                     return false;
                 if (!column.CompareWith(referenceColumn))

@@ -13,8 +13,9 @@ namespace DbTableComparer.Models
         public string FindColumnQuery { get; set; }
         public string AddedRowsQuery { get; set; }
         public string DeletedRowsQuery { get; set; }
+        public string ChangeCountQuery { get; set; }
         public string ChangeDetectQuery { get; set; }
-        public string PageSize { get; set; }
+        public int PageSize { get; set; }
         public TablesConfiguration TablesConfig { get; set; }
     }
 }

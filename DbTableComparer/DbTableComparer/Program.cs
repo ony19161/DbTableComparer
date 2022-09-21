@@ -44,7 +44,7 @@ namespace DbTableComparer
 
             if (willStartComparison)
             {
-                Console.WriteLine("Start comparison");
+                Console.WriteLine(String.Format("Comparing Table: {0} And Table: {1}", tablesConfig.FirstTableName, tablesConfig.SecondTableName));
                 var appConfig = GetAppConfiguration();
                 appConfig.TablesConfig = tablesConfig;
 
@@ -67,8 +67,10 @@ namespace DbTableComparer
             appConfiguration.FindColumnQuery = ConfigurationManager.AppSettings["findColumnsQuery"];
             appConfiguration.AddedRowsQuery = ConfigurationManager.AppSettings["addedRowsQuery"];
             appConfiguration.DeletedRowsQuery = ConfigurationManager.AppSettings["deletedRowsQuery"];
-            appConfiguration.ChangeDetectQuery = ConfigurationManager.AppSettings["changeDetectQuery"];
-            appConfiguration.PageSize = ConfigurationManager.AppSettings["pageSize"];
+            string changeDetectInnerQuery = ConfigurationManager.AppSettings["changeDetectInnerQuery"];
+            appConfiguration.ChangeCountQuery = ConfigurationManager.AppSettings["changeCountQuery"].Replace("@CHANGE_DETECT_INNER_QUERY", changeDetectInnerQuery);
+            appConfiguration.ChangeDetectQuery = ConfigurationManager.AppSettings["changeDetectQuery"].Replace("@CHANGE_DETECT_INNER_QUERY", changeDetectInnerQuery);
+            appConfiguration.PageSize = Convert.ToInt16(ConfigurationManager.AppSettings["pageSize"]);
 
             return appConfiguration;
         }
