@@ -70,9 +70,23 @@ namespace DbTableComparer
             string changeDetectInnerQuery = ConfigurationManager.AppSettings["changeDetectInnerQuery"];
             appConfiguration.ChangeCountQuery = ConfigurationManager.AppSettings["changeCountQuery"].Replace("@CHANGE_DETECT_INNER_QUERY", changeDetectInnerQuery);
             appConfiguration.ChangeDetectQuery = ConfigurationManager.AppSettings["changeDetectQuery"].Replace("@CHANGE_DETECT_INNER_QUERY", changeDetectInnerQuery);
-            appConfiguration.PageSize = Convert.ToInt16(ConfigurationManager.AppSettings["pageSize"]);
+            appConfiguration.PageSize = GetPageSize();
 
             return appConfiguration;
+        }
+
+        static int GetPageSize()
+        {
+            int pageSize = 2;
+
+            if (!string.IsNullOrWhiteSpace(ConfigurationManager.AppSettings["pageSize"]))
+            {
+                var value = Convert.ToInt16(ConfigurationManager.AppSettings["pageSize"]);
+                // Setting even page size for change detect method 
+                pageSize = value % 2 == 0 ? value : value + 1;
+            }
+
+            return pageSize;
         }
     }
 }
