@@ -44,3 +44,7 @@ Use the following command to run the application
 DbTableComparer.exe -TableName1 SourceTable1 -TableName2 SourceTable2 -Primarykey SocialSecurityNumber
 ```
 -TableName1, -TableName2, -Primarykey is required parameter to run the application successfully.
+
+# Download exe
+<a href="https://github.com/ony19161/DbTableComparer/blob/main/DbTableComparer_v.0.zip" download>Click to download</a>
+
